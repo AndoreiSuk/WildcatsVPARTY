@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Victory Party Photos 🏆</title>
+    <style>
+        :root {
+            --bg: #fff6e0;
+            --fg: #2a1a00;
+            --card: #fff;
+            --accent: #e63946;
+            --ok: #2a9d4a;
+            --muted: #8a7650;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        @media (prefers-color-scheme:dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #1a1208;
+                --fg: #fff0cf;
+                --card: #2a1e10;
+                --accent: #ff6b6b;
+                --ok: #5ee08a;
+                --muted: #b09c70
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #1a1208;
+            --fg: #fff0cf;
+            --card: #2a1e10;
+            --accent: #ff6b6b;
+            --ok: #5ee08a;
+            --muted: #b09c70
+        }
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--fg);
+            font-family: "Comic Sans MS", "Chalkboard SE", system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative
+        }
+
+        main {
+            width: min(92vw, 420px);
+            text-align: center;
+            padding: 24px 0;
+            position: relative;
+            z-index: 2
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin: 0 0 6px
+        }
+
+        .sub {
+            color: var(--muted);
+            margin: 0 0 18px;
+            font-size: .95rem
+        }
+
+        .card {
+            background: var(--card);
+            border: 3px dashed var(--accent);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 0 rgba(0, 0, 0, .12)
+        }
+
+        #qr {
+            display: inline-block;
+            background: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform .15s
+        }
+
+        #qr:active {
+            transform: scale(.96) rotate(-2deg)
+        }
+
+        #qr canvas,
+        #qr img {
+            display: block
+        }
+
+        .pay {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 16px 0 4px;
+            color: var(--accent)
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0
+        }
+
+        .price s {
+            opacity: .5;
+            font-size: 1.1rem
+        }
+
+        .fine {
+            font-size: .62rem;
+            color: var(--muted);
+            margin-top: 14px;
+            opacity: .7
+        }
+
+        #hint {
+            min-height: 1.4em;
+            margin-top: 10px;
+            font-size: .85rem;
+            color: var(--muted)
+        }
+
+        #coin {
+            position: fixed;
+            font-size: 16px;
+            opacity: .28;
+            cursor: pointer;
+            z-index: 3;
+            transition: left 7s linear, top 7s linear;
+            padding: 10px;
+            margin: -10px;
+            user-select: none
+        }
+
+        #coin.glow {
+            opacity: 1;
+            font-size: 26px;
+            animation: pulse .8s infinite alternate
+        }
+
+        @keyframes pulse {
+            to {
+                transform: scale(1.4) rotate(15deg)
+            }
+        }
+
+        #reveal {
+            display: none
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 14px;
+            background: var(--ok);
+            color: #06210f;
+            font-weight: 800;
+            text-decoration: none;
+            padding: 14px 22px;
+            border-radius: 999px;
+            font-size: 1.05rem;
+            box-shadow: 0 5px 0 rgba(0, 0, 0, .25)
+        }
+
+        .btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, .25)
+        }
+
+        .pop {
+            animation: pop .5s cubic-bezier(.2, 1.6, .4, 1)
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(.3);
+                opacity: 0
+            }
+        }
+
+        .bit {
+            position: fixed;
+            top: -20px;
+            font-size: 22px;
+            z-index: 1;
+            pointer-events: none;
+            animation: fall linear forwards
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(540deg)
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <span id="coin" title="">🪙</span>
+    <main>
+        <section id="lock">
+            <h1>🏆 Victory Party Photos</h1>
+            <p class="sub">Exclusive. Premium. Slightly overpriced.</p>
+            <div class="card">
+                <div id="qr"></div>
+                <p class="pay">Please pay before you proceed.</p>
+                <p class="price"><s>₱999</s> ₱∞ <span style="font-size:1rem">(GCash only)</span></p>
+                <div id="hint"></div>
+                <p class="fine">*No refunds. No cap. Terms and conditions apply, probably.</p>
+            </div>
+        </section>
+
+        <section id="reveal" class="card">
+            <h1>🎉 Payment accepted!</h1>
+            <p class="sub">You found the secret. Your payment: one (1) sharp eye. Sulit Nohhh?!</p>
+            <a id="go" class="btn" href="#" target="_blank" rel="noopener">📸 Take me to the photos</a>
+            <p class="fine">Please don’t share the link. (If you will, bad luck will come to you..)</p>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // ====== CHANGE THIS to your real Google Drive folder link ======
+        const DRIVE_URL = "https://drive.google.com/drive/u/0/folders/1FYtCiPUBjDyj4RH3h6WPDrWwi33xXkOF";
+        // ================================================================
+
+        const $ = id => document.getElementById(id);
+        let unlocked = false, qrTaps = 0;
+
+        // QR code (scans to a joke)
+        try {
+            new QRCode($("qr"), { text: "Nice try. The payment is vibes. Look closer at the screen 👀", width: 180, height: 180, correctLevel: QRCode.CorrectLevel.M });
+        } catch (e) { $("qr").textContent = "[ QR ]"; $("qr").style.cssText += "width:180px;height:180px;line-height:180px;color:#000;font-weight:700"; }
+
+        // Hidden easter egg #1: a tiny faint coin wandering around the screen
+        const coin = $("coin");
+        function roam() {
+            coin.style.left = (5 + Math.random() * 88) + "vw";
+            coin.style.top = (5 + Math.random() * 85) + "vh";
+        }
+        coin.style.left = "70vw"; coin.style.top = "80vh";
+        setTimeout(roam, 300); setInterval(roam, 7000);
+        coin.addEventListener("click", unlock);
+
+        // Hidden easter egg #2: tap the QR code 7 times
+        $("qr").addEventListener("click", () => {
+            qrTaps++;
+            const left = 7 - qrTaps;
+            if (qrTaps >= 7) return unlock();
+            if (qrTaps >= 1) $("hint").textContent = ["Hmm, the QR seems ticklish…", "ANO TARA??", "Sala ning Rumi", "NO TO PAX SILICA!!"][Math.min(qrTaps - 3, 3)];
+        });
+
+        // Escalating hints
+        setTimeout(() => $("hint").textContent = "Hint: not everything is in the QR code 👀", 15000);
+        setTimeout(() => $("hint").textContent = "Hint 2: something small is moving. It likes money.", 30000);
+        setTimeout(() => { coin.classList.add("glow"); $("hint").textContent = "Hint 3: ok fine, it’s glowing now 🪙"; }, 50000);
+
+        function unlock() {
+            if (unlocked) return; unlocked = true;
+            $("lock").style.display = "none";
+            coin.style.display = "none";
+            const r = $("reveal"); r.style.display = "block"; r.classList.add("pop");
+            $("go").href = DRIVE_URL;
+            const bits = ["🎉", "🏆", "📸", "💃", "🪩", "✨", "🎊"];
+            for (let i = 0; i < 40; i++) {
+                const s = document.createElement("span");
+                s.className = "bit"; s.textContent = bits[i % bits.length];
+                s.style.left = Math.random() * 100 + "vw";
+                s.style.animationDuration = (2 + Math.random() * 3) + "s";
+                s.style.animationDelay = Math.random() * 1.2 + "s";
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 6500);
+            }
+        }
+    </script>
+</body>
+
+</html>
